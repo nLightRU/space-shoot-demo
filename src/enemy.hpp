@@ -15,6 +15,10 @@ public:
 
     void move();
 
+    float x() const { return m_x; }
+    float y() const { return m_y; }
+    float w() const { return m_w; }
+    float h() const { return m_h; }
     sf::RectangleShape shape() const { return m_shape; }
 };
 #endif // __ENEMY_H__

@@ -10,7 +10,7 @@ m_shape(sf::Vector2f(m_w, m_h)), m_color(sf::Color::Red)
 
 Enemy::Enemy(float x, float y, float w, float h) : 
 m_x(x), m_y(y), m_w(w), m_h(h), 
-m_shape(sf::Vector2f(m_w, m_h)), m_color(sf::Color::Red) 
+m_shape(sf::Vector2f(m_w, m_h)), m_color(198, 0, 124) 
 {
     m_shape.setPosition(m_x, m_y);
     m_shape.setFillColor(m_color);
