@@ -8,7 +8,7 @@ set(SFML_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/deps/SFML-2.6.2/include")
 
 add_executable(${CMAKE_PROJECT_NAME} ${SOURCE_DIR}/main.cpp 
                                      ${SOURCE_DIR}/player.cpp 
-                                     ${SOURCE_DIR}/drop.cpp
+                                     ${SOURCE_DIR}/star.cpp
                                      ${SOURCE_DIR}/bullet.cpp
                                      ${SOURCE_DIR}/enemy.cpp
 )

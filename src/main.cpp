@@ -6,7 +6,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "config.hpp"
-#include "drop.hpp"
+#include "star.hpp"
 #include "bullet.hpp"
 #include "player.hpp"
 #include "enemy.hpp"
@@ -49,11 +49,11 @@ int main() {
     
     size_t drops_num = 200;
     int shift = 150;
-    std::vector<Drop> drops;
+    std::vector<Star*> stars;
     for(size_t i = 0; i < drops_num; ++i) {
-        float drop_x = 20 + rand() % 640;
-        float drop_y = rand() % 400;
-        drops.push_back(Drop(drop_x, drop_y));
+        float star_x = 20 + rand() % 640;
+        float star_y = rand() % 400;
+        stars.push_back(new Star(star_x, star_y));
     }
 
     Player player(50.f, 50.f); 
@@ -78,7 +78,7 @@ int main() {
         }
         
         if(bullets_timer.getElapsedTime().asMilliseconds() > 500.f) {
-            bullets.push_back(new Bullet(player.x() + 25.f, player.y() - 50.f));
+            bullets.push_back(new Bullet(player.x() + 17.f, player.y() - 20.f));
             bullets_timer.restart();
         }
 
@@ -92,9 +92,9 @@ int main() {
         handle_bullets(bullets, enemies);
 
         window.clear();
-        for(size_t i = 0; i < drops.size(); ++i) {
-            drops[i].move();
-            window.draw(drops[i].shape());
+        for(size_t i = 0; i < stars.size(); ++i) {
+            stars[i]->move();
+            window.draw(stars[i]->sprite());
         }
 
         for(size_t i = 0; i < bullets.size(); ++i) {
