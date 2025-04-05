@@ -17,15 +17,14 @@ public:
     ~Player();
 
     void move_up();
-
     void move_down();
-
     void move_left();
-
     void move_right();
 
     void handle(const sf::Event e);
 
+    float x() const { return m_x; }
+    float y() const { return m_y; }
     sf::RectangleShape shape() const { return m_shape; }
 };
 #endif // __PLAYER_H__
