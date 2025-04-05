@@ -11,19 +11,19 @@
 #include "player.hpp"
 #include "enemy.hpp"
 
-bool check_collision(const Bullet& b, Enemy* e) {
-    if(b.x() > e->x() && b.x() < (e->x() + e->w())) {
-        if(b.y() > e->y() && b.y() < (e->y() + e->h())) {
+bool check_collision(const Bullet* b, Enemy* e) {
+    if(b->x() > e->x() && b->x() < (e->x() + e->w())) {
+        if(b->y() > e->y() && b->y() < (e->y() + e->h())) {
             return true;
         }
     }
     return false;
 }
 
-void handle_bullets(std::vector<Bullet>& bullets, std::vector<Enemy*>& enemies) {
+void handle_bullets(std::vector<Bullet*>& bullets, std::vector<Enemy*>& enemies) {
     for(size_t i = 0; i < bullets.size(); ++i) {
         bool collision = false;
-        bullets[i].move();
+        bullets[i]->move();
         for(size_t j = 0; j < enemies.size(); ++j) {
             if(check_collision(bullets[i], enemies[j])) {
                 bullets.erase(bullets.begin() + i);    
@@ -34,7 +34,7 @@ void handle_bullets(std::vector<Bullet>& bullets, std::vector<Enemy*>& enemies) 
         }
         if(collision) {
             continue;
-        } else if(bullets[i].y() > WINDOW_HEIGHT ) {
+        } else if(bullets[i]->y() > WINDOW_HEIGHT ) {
             bullets.erase(bullets.begin() + i);
         }
     }
@@ -63,7 +63,7 @@ int main() {
     std::vector<Enemy*> enemies;
 
     sf::Clock bullets_timer;
-    std::vector<Bullet> bullets;
+    std::vector<Bullet*> bullets;
 
     while(window.isOpen()) {
         sf::Event event;
@@ -78,7 +78,7 @@ int main() {
         }
         
         if(bullets_timer.getElapsedTime().asMilliseconds() > 500.f) {
-            bullets.push_back(Bullet(player.x() + 25.f, player.y() - 50.f));
+            bullets.push_back(new Bullet(player.x() + 25.f, player.y() - 50.f));
             bullets_timer.restart();
         }
 
@@ -98,7 +98,7 @@ int main() {
         }
 
         for(size_t i = 0; i < bullets.size(); ++i) {
-            window.draw(bullets[i].shape());
+            window.draw(bullets[i]->sprite());
         }
 
         for(size_t i = 0; i < enemies.size(); ++i) {
