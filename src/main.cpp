@@ -11,16 +11,16 @@
 #include "player.hpp"
 #include "enemy.hpp"
 
-bool check_collision(const Bullet& b, const Enemy& e) {
-    if(b.x() > e.x() && b.x() < (e.x() + e.w())) {
-        if(b.y() > e.y() && b.y() < (e.y() + e.h())) {
+bool check_collision(const Bullet& b, Enemy* e) {
+    if(b.x() > e->x() && b.x() < (e->x() + e->w())) {
+        if(b.y() > e->y() && b.y() < (e->y() + e->h())) {
             return true;
         }
     }
     return false;
 }
 
-void handle_bullets(std::vector<Bullet>& bullets, std::vector<Enemy>& enemies) {
+void handle_bullets(std::vector<Bullet>& bullets, std::vector<Enemy*>& enemies) {
     for(size_t i = 0; i < bullets.size(); ++i) {
         bool collision = false;
         bullets[i].move();
@@ -60,7 +60,7 @@ int main() {
     
     sf::Clock enemies_timer;
     size_t enemies_num = 6;
-    std::vector<Enemy> enemies;
+    std::vector<Enemy*> enemies;
 
     sf::Clock bullets_timer;
     std::vector<Bullet> bullets;
@@ -85,7 +85,7 @@ int main() {
         if(enemies_timer.getElapsedTime().asSeconds() > 2.f && enemies.size() < enemies_num ) {
             float x = rand() % 500;
             float y = rand() % 100;
-            enemies.push_back(Enemy(x, y, 40.f, 30.f));
+            enemies.push_back(new Enemy(x, y, 40.f, 30.f));
             enemies_timer.restart();
         }
 
@@ -102,7 +102,7 @@ int main() {
         }
 
         for(size_t i = 0; i < enemies.size(); ++i) {
-            window.draw(enemies[i].shape());
+            window.draw(enemies[i]->sprite());
         }
 
         window.draw(player.sprite());

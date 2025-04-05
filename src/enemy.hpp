@@ -6,6 +6,8 @@ class Enemy {
 private:
     float m_x, m_y;
     float m_w, m_h;
+    sf::Texture m_texture;
+    sf::Sprite m_sprite;
     sf::Color m_color;
     sf::RectangleShape m_shape;
 public:
@@ -20,5 +22,6 @@ public:
     float w() const { return m_w; }
     float h() const { return m_h; }
     sf::RectangleShape shape() const { return m_shape; }
+    sf::Sprite sprite() const { return m_sprite; }
 };
 #endif // __ENEMY_H__
