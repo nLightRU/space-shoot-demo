@@ -5,14 +5,11 @@
 #include <SFML/System/Clock.hpp>
 #include <SFML/Graphics.hpp>
 
+#include "config.hpp"
 #include "drop.hpp"
 #include "bullet.hpp"
 #include "player.hpp"
 #include "enemy.hpp"
-
-#define WINDOW_WIDTH 640
-#define WINDOW_HEIGHT 480
-#define DEBUG 0
 
 bool check_collision(const Bullet& b, const Enemy& e) {
     if(b.x() > e.x() && b.x() < (e.x() + e.w())) {
@@ -46,6 +43,7 @@ void handle_bullets(std::vector<Bullet>& bullets, std::vector<Enemy>& enemies) {
 
 int main() {
     sf::RenderWindow window(sf::VideoMode(640, 480), "Moving");
+
     window.setFramerateLimit(60);
     srand(time({}));
     
@@ -107,7 +105,7 @@ int main() {
             window.draw(enemies[i].shape());
         }
 
-        window.draw(player.shape());
+        window.draw(player.sprite());
         window.display();
     }
 

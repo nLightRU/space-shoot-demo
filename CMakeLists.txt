@@ -12,7 +12,7 @@ add_executable(${CMAKE_PROJECT_NAME} ${SOURCE_DIR}/main.cpp
                                      ${SOURCE_DIR}/bullet.cpp
                                      ${SOURCE_DIR}/enemy.cpp
 )
-
+target_compile_features(${CMAKE_PROJECT_NAME} PUBLIC cxx_std_17)
 target_include_directories(${CMAKE_PROJECT_NAME} PUBLIC ${SFML_INCLUDE_DIR})
 target_link_directories(${CMAKE_PROJECT_NAME} PUBLIC ${SFML_LIB_DIR})
-target_link_libraries(${CMAKE_PROJECT_NAME} sfml-graphics sfml-system sfml-window)
+target_link_libraries(${CMAKE_PROJECT_NAME} sfml-graphics-d sfml-system-d sfml-window-d)
