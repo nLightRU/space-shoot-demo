@@ -1,4 +1,4 @@
-#include <stdlib.h>
+#include <cstdlib>
 #include <ctime>
 #include <iostream>
 #include <vector>
@@ -8,12 +8,13 @@
 #include "drop.hpp"
 #include "bullet.hpp"
 #include "player.hpp"
+#include "enemy.hpp"
 
 #define WINDOW_WIDTH 640
 #define WINDOW_HEIGHT 480
 #define DEBUG 0
 
-void move_bullets(std::vector<Bullet>& bullets) {
+void handle_bullets(std::vector<Bullet>& bullets, std::vector<Enemy>& enemies) {
     for(size_t i = 0; i < bullets.size(); ++i) {
         bullets[i].move();
         if(bullets[i].y() > WINDOW_HEIGHT ) {
@@ -25,19 +26,25 @@ void move_bullets(std::vector<Bullet>& bullets) {
 
 int main() {
     sf::RenderWindow window(sf::VideoMode(640, 480), "Moving");
-    Player player(50.f, 50.f); 
     window.setFramerateLimit(60);
+    srand(time({}));
     
-    sf::Clock bullets_timer;
-    
-    size_t drops_num = 15;
+    size_t drops_num = 200;
     int shift = 150;
     std::vector<Drop> drops;
     for(size_t i = 0; i < drops_num; ++i) {
-        drops.push_back(Drop(3 + 50 * i, 150 + (50 * i) % shift));
+        float drop_x = 20 + rand() % 640;
+        float drop_y = rand() % 400;
+        drops.push_back(Drop(drop_x, drop_y));
     }
 
-    size_t bullets_num = 0;
+    Player player(50.f, 50.f); 
+    
+    sf::Clock enemies_timer;
+    size_t enemies_num = 6;
+    std::vector<Enemy> enemies;
+
+    sf::Clock bullets_timer;
     std::vector<Bullet> bullets;
 
     while(window.isOpen()) {
@@ -57,7 +64,11 @@ int main() {
             bullets_timer.restart();
         }
 
-        move_bullets(bullets);
+        if(enemies_timer.getElapsedTime().asSeconds() > 2.f && enemies.size() < enemies_num ) {
+            enemies.push_back(Enemy());
+        }
+
+        handle_bullets(bullets, enemies);
 
         window.clear();
         for(size_t i = 0; i < drops.size(); ++i) {
@@ -67,6 +78,10 @@ int main() {
 
         for(size_t i = 0; i < bullets.size(); ++i) {
             window.draw(bullets[i].shape());
+        }
+
+        for(size_t i = 0; i < enemies.size(); ++i) {
+            window.draw(enemies[i].shape());
         }
 
         window.draw(player.shape());

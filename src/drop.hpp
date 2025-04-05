@@ -8,8 +8,8 @@
 class Drop {
 private:
     float m_x, m_y;
-    const int m_w, m_h;
-    const float m_speed = 3.f;
+    const float m_w, m_h;
+    const float m_speed = 2.f;
     // const sf::Color m_color(17, 66, 170);
     sf::RectangleShape m_shape;
 public:

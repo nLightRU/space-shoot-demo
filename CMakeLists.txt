@@ -10,6 +10,7 @@ add_executable(${CMAKE_PROJECT_NAME} ${SOURCE_DIR}/main.cpp
                                      ${SOURCE_DIR}/player.cpp 
                                      ${SOURCE_DIR}/drop.cpp
                                      ${SOURCE_DIR}/bullet.cpp
+                                     ${SOURCE_DIR}/enemy.cpp
 )
 
 target_include_directories(${CMAKE_PROJECT_NAME} PUBLIC ${SFML_INCLUDE_DIR})
