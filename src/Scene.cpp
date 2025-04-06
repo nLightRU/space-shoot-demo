@@ -27,7 +27,10 @@ void Scene::handle_bullets()
         m_bullets[i]->move();
         for(size_t j = 0; j < m_enemies.size(); ++j) {
             if(check_collision(m_bullets[i], m_enemies[j])) {
-                m_bullets.erase(m_bullets.begin() + i);    
+                m_bullets.erase(m_bullets.begin() + i);
+                m_effects.push_back(
+                    new DestroyEffect(m_enemies[j]->x(), m_enemies[j]->y(), m_texture_file.string())
+                );
                 m_enemies.erase(m_enemies.begin() + j);
                 collision = true;
                 continue;
@@ -37,6 +40,16 @@ void Scene::handle_bullets()
             continue;
         } else if(m_bullets[i]->y() > WINDOW_HEIGHT ) {
             m_bullets.erase(m_bullets.begin() + i);
+        }
+    }
+}
+
+void Scene::handle_effects() {
+    for(size_t i = 0; i < m_effects.size(); ++i) {
+        if(m_effects[i]->has_next_sprite()) {
+            m_effects[i]->set_next_sprite();
+        } else { 
+            m_effects.erase(m_effects.begin() + i);
         }
     }
 }
@@ -72,9 +85,13 @@ Scene::Scene() {
 
 Scene::Scene(Player *player) : 
 m_player(player),
-m_stars()
+m_stars(),
+m_enemies(),
+m_effects()
 {
     create_stars();
+    std::string texture_sheet_filename = "M484VerticalShmupSet1.png";
+    m_texture_file = fs::current_path().append("resources").append("textures").append(texture_sheet_filename);    
 }
 
 Scene::~Scene()
@@ -109,6 +126,10 @@ void Scene::update_scene(const sf::Event& e, sf::Clock& bullets_timer, sf::Clock
     }
 
     // Checks bullets collisions with enemies
+    // Creates effects
     handle_bullets();
+
+    //Effects
+    handle_effects();
 }
 

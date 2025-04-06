@@ -1,6 +1,8 @@
 #ifndef __SCENE_H__
 #define __SCENE_H__
 
+#include <string>
+#include <filesystem>
 #include <SFML/System/Clock.hpp>
 #include <SFML/Window/Event.hpp>
 
@@ -8,6 +10,9 @@
 #include "Bullet.hpp"
 #include "Enemy.hpp"
 #include "Player.hpp"
+#include "DestroyEffect.hpp"
+
+namespace fs = std::filesystem;
 
 class Scene
 {
@@ -22,10 +27,15 @@ private:
     const size_t m_enemies_num = 5;
     std::vector<Enemy*> m_enemies;
 
+    std::vector<DestroyEffect*> m_effects;
+
+    fs::path m_texture_file;
+
 private:
     void create_stars();    
     bool check_collision(const Bullet* b, const Enemy* e);
     void handle_bullets();
+    void handle_effects();
 public:
     Scene();
     Scene(Player* player);
@@ -35,6 +45,7 @@ public:
     const std::vector<Star*>& stars() const {return m_stars; }
     const std::vector<Bullet*>& bullets() const {return m_bullets; }
     const std::vector<Enemy*>& enemies() const { return m_enemies; }
+    const std::vector<DestroyEffect*>& effects() const { return m_effects; }
     
     void add_object();
     void handle_player(const sf::Event& e);

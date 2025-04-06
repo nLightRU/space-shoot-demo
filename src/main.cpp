@@ -34,6 +34,11 @@ int main() {
             window.draw(star->sprite());
         }
 
+        // Draw effects
+        for(auto effect : scene.effects()) {
+            window.draw(effect->sprite());
+        }
+
         // Draw player
         window.draw(scene.player()->sprite());
 

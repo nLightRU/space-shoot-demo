@@ -12,6 +12,7 @@ add_executable(${CMAKE_PROJECT_NAME} ${SOURCE_DIR}/main.cpp
                                      ${SOURCE_DIR}/Bullet.cpp
                                      ${SOURCE_DIR}/Enemy.cpp
                                      ${SOURCE_DIR}/Scene.cpp
+                                     ${SOURCE_DIR}/DestroyEffect.cpp
 
 )
 target_compile_features(${CMAKE_PROJECT_NAME} PUBLIC cxx_std_17)
