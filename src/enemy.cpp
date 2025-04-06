@@ -19,8 +19,31 @@ m_texture()
 {
     std::string texture_sheet_filename = "M484VerticalShmupSet1.png";
     fs::path texture_file = fs::current_path().append("resources").append("textures").append(texture_sheet_filename);
+
+    // 610 90 
+    // 650 50
+    // 650 90
     
-    if(!m_texture.loadFromFile(texture_file.string(), sf::IntRect(610, 50, 25, 20))) {
+    sf::IntRect r;
+
+    switch (std::rand() % 4) {
+    case 0:
+        r = sf::IntRect(610, 50, 26, 20);
+        break;
+    case 1:
+        r = sf::IntRect(610, 90, 26, 20);
+        break;
+    case 2:
+        r = sf::IntRect(650, 50, 26, 20);
+        break;
+    case 3:
+        r = sf::IntRect(650, 90, 26, 20);
+        break;
+    default:
+        break;
+    }
+
+    if(!m_texture.loadFromFile(texture_file.string(), r)) {
         if(DEBUG) {
             std::cout << "error load enemy texture" << std::endl;
         }
