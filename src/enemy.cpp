@@ -2,7 +2,7 @@
 #include <filesystem>
 
 #include "config.hpp"
-#include "enemy.hpp"
+#include "Enemy.hpp"
 
 namespace fs = std::filesystem;
 

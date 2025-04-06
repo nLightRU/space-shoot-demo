@@ -6,10 +6,10 @@
 #include <SFML/Graphics.hpp>
 
 #include "config.hpp"
-#include "star.hpp"
-#include "bullet.hpp"
-#include "player.hpp"
-#include "enemy.hpp"
+#include "Star.hpp"
+#include "Bullet.hpp"
+#include "Player.hpp"
+#include "Enemy.hpp"
 
 bool check_collision(const Bullet* b, Enemy* e) {
     if(b->x() > e->x() && b->x() < (e->x() + e->w())) {

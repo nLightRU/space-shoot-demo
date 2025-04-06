@@ -1,6 +1,6 @@
 #include <filesystem>
 
-#include "bullet.hpp"
+#include "Bullet.hpp"
 
 namespace fs = std::filesystem;
 

@@ -1,7 +1,7 @@
 #include <iostream>
 #include <filesystem>
 
-#include "player.hpp"
+#include "Player.hpp"
 
 namespace fs = std::filesystem;
 
