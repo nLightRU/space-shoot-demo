@@ -21,16 +21,16 @@ private:
 
     const size_t stars_count = 200;
     void create_stars();
-    void handle_player(const sf::Event& e);
     
     bool check_collision(const Bullet* b, const Enemy* e);
     void handle_bullets();
-public:
+    public:
     Scene();
     Scene(Player* player);
     ~Scene();
-
+    
     void add_object();
+    void handle_player(const sf::Event& e);
     void update_scene(const sf::Event& e, sf::Clock& bullets_timer, sf::Clock& enemies_timer);
     const Player* get_player() const {return m_player; }
     const std::vector<Star*>& get_stars() const {return m_stars; }

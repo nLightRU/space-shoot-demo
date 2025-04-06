@@ -110,8 +110,5 @@ void Scene::update_scene(const sf::Event& e, sf::Clock& bullets_timer, sf::Clock
 
     // Checks bullets collisions with enemies
     handle_bullets();
-
-    // Moves player if need
-    handle_player(e);
 }
 

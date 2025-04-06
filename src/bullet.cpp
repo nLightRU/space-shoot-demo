@@ -14,7 +14,6 @@ m_shape(sf::Vector2f(10.f, 10.f)),
 m_color(254, 120, 0),
 m_texture()
 {
-    // 807 236
     std::string texture_sheet_filename = "M484VerticalShmupSet1.png";
     fs::path texture_file = fs::current_path().append("resources").append("textures").append(texture_sheet_filename);
     if(!m_texture.loadFromFile(texture_file.string(), sf::IntRect(807, 236, 5, 10))) {
