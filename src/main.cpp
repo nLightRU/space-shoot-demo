@@ -30,20 +30,20 @@ int main() {
         window.clear();
 
         // Draw stars
-        for(auto star : scene.get_stars()) {
+        for(auto star : scene.stars()) {
             window.draw(star->sprite());
         }
 
         // Draw player
-        window.draw(scene.get_player()->sprite());
+        window.draw(scene.player()->sprite());
 
         // Draw bullets
-        for(auto bullet : scene.get_bullets()) {
+        for(auto bullet : scene.bullets()) {
             window.draw(bullet->sprite());
         }
 
         // Draw enemies
-        for(auto enemy : scene.get_enemies()) {
+        for(auto enemy : scene.enemies()) {
             window.draw(enemy->sprite());
         }
         

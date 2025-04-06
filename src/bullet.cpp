@@ -4,14 +4,13 @@
 
 namespace fs = std::filesystem;
 
-Bullet::Bullet() {
+Bullet::Bullet()
+{
 
 }
 
 Bullet::Bullet(float x, float y) : 
-m_x(x), m_y(y), m_speed(7.f), 
-m_shape(sf::Vector2f(10.f, 10.f)), 
-m_color(254, 120, 0),
+m_x(x), m_y(y), m_speed(7.f),
 m_texture()
 {
     std::string texture_sheet_filename = "M484VerticalShmupSet1.png";
@@ -21,16 +20,15 @@ m_texture()
     }
     m_sprite.setTexture(m_texture);
     m_sprite.setPosition(m_x, m_y);
-    m_shape.setPosition(m_x, m_y);
-    m_shape.setFillColor(m_color);
 }
 
-Bullet::~Bullet() {
+Bullet::~Bullet() 
+{
 
 }
 
-void Bullet::move() {
+void Bullet::move() 
+{
     m_y -= m_speed;
-    m_shape.setPosition(m_x, m_y);
     m_sprite.setPosition(m_x, m_y);
 }
