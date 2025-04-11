@@ -6,6 +6,7 @@
 
 #include <SFML/System/Clock.hpp>
 #include <SFML/Window/Event.hpp>
+#include <SFML/Audio/SoundBuffer.hpp>
 
 #include "star.hpp"
 #include "bullet.hpp"
@@ -18,6 +19,9 @@ namespace fs = std::filesystem;
 class Scene
 {
 private:
+    fs::path m_texture_file;
+    const std::string c_destroy_effect_sound = (fs::current_path() / "resources" / "sounds" / "Hit 1.mp3").string();
+
     Player* m_player;
 
     const size_t stars_count = 200;
@@ -30,7 +34,10 @@ private:
 
     std::vector<DestroyEffect*> m_effects;
 
-    fs::path m_texture_file;
+    sf::SoundBuffer m_destroy_effect_buffer;
+    sf::Sound m_destroy_sound;
+
+    std::vector<sf::Sound*> m_sounds;
 
 private:
     void create_stars();    
@@ -47,6 +54,8 @@ public:
     const std::vector<Bullet*>& bullets() const {return m_bullets; }
     const std::vector<Enemy*>& enemies() const { return m_enemies; }
     const std::vector<DestroyEffect*>& effects() const { return m_effects; }
+    std::vector<sf::Sound*> sounds() { return m_sounds; }
+    sf::Sound destroy_sound() { return m_destroy_sound; }
     
     void add_object();
     void handle_player(const sf::Event& e);

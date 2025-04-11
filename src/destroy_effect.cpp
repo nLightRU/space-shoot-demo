@@ -1,11 +1,15 @@
+#include <iostream>
 #include <string>
 #include <filesystem>
 
 #include <SFML/Graphics/Rect.hpp>
 
+#include "config.hpp"
 #include "destroy_effect.hpp"
 
-DestroyEffect::DestroyEffect(float x, float y, const std::string& texture_file) : m_x(x), m_y(y), m_current_texture(0)
+DestroyEffect::DestroyEffect(float x, float y, const std::string& texture_file) : 
+m_x(x), m_y(y), 
+m_current_texture()
 {
     m_animation_textures.reserve(5);
     std::vector<sf::IntRect> rects = {

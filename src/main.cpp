@@ -1,9 +1,11 @@
 #include <filesystem>
 #include <iostream>
+#include <algorithm>
 
 #include <SFML/System/Clock.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
+#include <SFML/Audio/SoundSource.hpp>
 
 #include "config.hpp"
 #include "player.hpp"
@@ -24,7 +26,8 @@ int main() {
     sf::Font font;
 
     if(!font.loadFromFile(font_path.string())) {
-        std::cout << "error loading font" << std::endl;
+        if(DEBUG)
+            std::cout << "error loading font" << std::endl;
     }
 
     sf::Text start_text;
@@ -45,7 +48,7 @@ int main() {
     }
 
     music.setLoop(true);
-    music.setVolume(5.f);
+    music.setVolume(MUSIC_VOLUME);
 
     Player* player = new Player(50.f, 50.f);
 
@@ -59,8 +62,11 @@ int main() {
 
     Scene scene(player);
 
+    if(MUSIC)
+        music.play();
+
     bool game_started = false;
-    music.play();
+
     while(window.isOpen()) {
         sf::Event event;
         while(window.pollEvent(event)) {
@@ -79,6 +85,7 @@ int main() {
 
         if(game_started) { 
             scene.update_scene(event, bullets_timer, enemies_timer);
+            bool destroy_sound = false;
 
             points_text.setString("Points: "  + std::to_string(player->points()));
             window.draw(points_text);
@@ -91,6 +98,7 @@ int main() {
             // Draw effects
             for(auto effect : scene.effects()) {
                 window.draw(effect->sprite());
+                destroy_sound = true;
             }
     
             // Draw player
@@ -104,6 +112,19 @@ int main() {
             // Draw enemies
             for(auto enemy : scene.enemies()) {
                 window.draw(enemy->sprite());
+            }
+            
+        
+            //A try to play sounds
+            for(size_t i = 0; i < scene.sounds().size(); ++i) {
+                if(DEBUG) std::cout << "sound: " << i << " " << "bufer: "<< scene.sounds().at(i)->getBuffer() << "volume: " << scene.sounds().at(i)->getVolume() << std::endl;
+                if(scene.sounds().at(i)->getStatus() != sf::SoundSource::Status::Paused) { 
+                    scene.sounds().at(i)->play();
+                    if(scene.sounds().at(i)->getPlayingOffset().asMilliseconds() >= 100) {
+                        scene.sounds().at(i)->pause();
+                        scene.sounds().erase(scene.sounds().begin() + i);
+                    }
+                }
             }
         } else {
             window.draw(start_text);

@@ -1,8 +1,10 @@
+#include <iostream>
 #include <cstdlib>
 #include <ctime>
 #include <iostream>
 
 #include <SFML/Window/Event.hpp>
+#include <SFML/Audio/Sound.hpp>
 
 #include "config.hpp"
 #include "scene.hpp"
@@ -21,6 +23,8 @@ void Scene::create_stars()
     }
 }
 
+// TO DO: check can we make private inline funcion for adding effect
+// inline void Scene::_add_destroy_effect();
 void Scene::handle_bullets()
 {
     for(size_t i = 0; i < m_bullets.size(); ++i) {
@@ -32,6 +36,8 @@ void Scene::handle_bullets()
                 m_effects.push_back(
                     new DestroyEffect(m_enemies[j]->x(), m_enemies[j]->y(), m_texture_file.string())
                 );
+                m_sounds.push_back(new sf::Sound(m_destroy_effect_buffer));
+                m_sounds.back()->setVolume(EFFECT_VOLUME);
                 m_enemies.erase(m_enemies.begin() + j);
                 m_player->add_points(50);
                 collision = true;
@@ -89,11 +95,20 @@ Scene::Scene(Player *player) :
 m_player(player),
 m_stars(),
 m_enemies(),
-m_effects()
+m_effects(),
+m_destroy_effect_buffer(),
+m_destroy_sound(),
+m_sounds()
 {
     create_stars();
     std::string texture_sheet_filename = "M484VerticalShmupSet1.png";
     m_texture_file = fs::current_path().append("resources").append("textures").append(texture_sheet_filename);    
+    if(!m_destroy_effect_buffer.loadFromFile(c_destroy_effect_sound)) {
+        if(DEBUG)
+            std::cout << "Error loading sound buffer" << std::endl;
+    }
+    m_destroy_sound.setBuffer(m_destroy_effect_buffer);
+    m_destroy_sound.setVolume(EFFECT_VOLUME);
 }
 
 Scene::~Scene()
@@ -134,4 +149,3 @@ void Scene::update_scene(const sf::Event& e, sf::Clock& bullets_timer, sf::Clock
     //Effects
     handle_effects();
 }
-

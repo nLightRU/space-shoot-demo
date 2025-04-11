@@ -7,6 +7,8 @@
 #include <SFML/System/Clock.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Audio/SoundBuffer.hpp>
+#include <SFML/Audio/Sound.hpp>
 
 // TO DO
 // make class BaseEffect with methods: next_sprite, has_next_sprite
@@ -20,9 +22,12 @@ private:
     sf::Clock m_clock;
     std::vector<sf::Texture*> m_animation_textures;
     sf::Sprite m_sprite;
+    sf::SoundBuffer m_sound_buffer;
+    sf::Sound m_sound; 
 public:
     DestroyEffect(float x, float y, const std::string& texture_file);
     const sf::Sprite& sprite() const { return m_sprite; }
+    sf::Sound sound() const { return m_sound; }
     void set_next_sprite();
     bool has_next_sprite();
 };
