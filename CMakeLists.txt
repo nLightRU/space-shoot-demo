@@ -7,12 +7,12 @@ set(SFML_LIB_DIR "${PROJECT_SOURCE_DIR}/deps/SFML-2.6.2/lib")
 set(SFML_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/deps/SFML-2.6.2/include")
 
 add_executable(${CMAKE_PROJECT_NAME} ${SOURCE_DIR}/main.cpp 
-                                     ${SOURCE_DIR}/Player.cpp 
-                                     ${SOURCE_DIR}/Star.cpp
-                                     ${SOURCE_DIR}/Bullet.cpp
-                                     ${SOURCE_DIR}/Enemy.cpp
-                                     ${SOURCE_DIR}/Scene.cpp
-                                     ${SOURCE_DIR}/DestroyEffect.cpp
+                                     ${SOURCE_DIR}/player.cpp 
+                                     ${SOURCE_DIR}/star.cpp
+                                     ${SOURCE_DIR}/bullet.cpp
+                                     ${SOURCE_DIR}/enemy.cpp
+                                     ${SOURCE_DIR}/scene.cpp
+                                     ${SOURCE_DIR}/destroy_effect.cpp
 
 )
 target_compile_features(${CMAKE_PROJECT_NAME} PUBLIC cxx_std_17)

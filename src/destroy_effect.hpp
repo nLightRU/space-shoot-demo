@@ -1,9 +1,12 @@
 #ifndef __DESTROYEFFECT_H__
 #define __DESTROYEFFECT_H__
+
 #include <string>
 #include <vector>
+
 #include <SFML/System/Clock.hpp>
-#include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Texture.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 
 // TO DO
 // make class BaseEffect with methods: next_sprite, has_next_sprite

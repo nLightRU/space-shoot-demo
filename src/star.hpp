@@ -1,9 +1,8 @@
 #ifndef __STAR_H__
 #define __STAR_H__
-#include <SFML/Graphics.hpp>
 
-#define WINDOW_WIDTH 640
-#define WINDOW_HEIGHT 480
+#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Texture.hpp>
 
 class Star {
 private:

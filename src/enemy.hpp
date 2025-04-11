@@ -1,6 +1,8 @@
 #ifndef __ENEMY_H__
 #define __ENEMY_H__
-#include <SFML/Graphics.hpp>
+
+#include <SFML/Graphics/Texture.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 
 class Enemy { 
 private:

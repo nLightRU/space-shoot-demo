@@ -1,13 +1,14 @@
 #include <cstdlib>
 #include <ctime>
 #include <iostream>
+
 #include <SFML/Window/Event.hpp>
 
 #include "config.hpp"
-#include "Scene.hpp"
-#include "Star.hpp"
-#include "Bullet.hpp"
-#include "Enemy.hpp"
+#include "scene.hpp"
+#include "star.hpp"
+#include "bullet.hpp"
+#include "enemy.hpp"
 
 void Scene::create_stars()
 {

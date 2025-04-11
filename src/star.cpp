@@ -1,6 +1,7 @@
 #include <filesystem>
 
-#include "Star.hpp"
+#include "config.hpp"
+#include "star.hpp"
 
 namespace fs = std::filesystem;
 

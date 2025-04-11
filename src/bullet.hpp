@@ -1,7 +1,8 @@
 #ifndef __BULLET_H__
 #define __BULLET_H__
 
-#include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Texture.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 
 class Bullet
 {

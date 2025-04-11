@@ -1,7 +1,9 @@
-#include "DestroyEffect.hpp"
 #include <string>
 #include <filesystem>
-#include <SFML/Graphics.hpp>
+
+#include <SFML/Graphics/Rect.hpp>
+
+#include "destroy_effect.hpp"
 
 DestroyEffect::DestroyEffect(float x, float y, const std::string& texture_file) : m_x(x), m_y(y), m_current_texture(0)
 {

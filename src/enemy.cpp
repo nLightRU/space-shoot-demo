@@ -1,8 +1,10 @@
 #include <iostream>
 #include <filesystem>
 
+#include <SFML/Graphics/Rect.hpp>
+
 #include "config.hpp"
-#include "Enemy.hpp"
+#include "enemy.hpp"
 
 namespace fs = std::filesystem;
 

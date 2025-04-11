@@ -3,14 +3,15 @@
 
 #include <string>
 #include <filesystem>
+
 #include <SFML/System/Clock.hpp>
 #include <SFML/Window/Event.hpp>
 
-#include "Star.hpp"
-#include "Bullet.hpp"
-#include "Enemy.hpp"
-#include "Player.hpp"
-#include "DestroyEffect.hpp"
+#include "star.hpp"
+#include "bullet.hpp"
+#include "enemy.hpp"
+#include "player.hpp"
+#include "destroy_effect.hpp"
 
 namespace fs = std::filesystem;
 

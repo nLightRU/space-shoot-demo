@@ -2,11 +2,11 @@
 #include <iostream>
 
 #include <SFML/System/Clock.hpp>
-#include <SFML/Graphics/Font.hpp>
+#include <SFML/Graphics.hpp>
 
 #include "config.hpp"
-#include "Player.hpp"
-#include "Scene.hpp"
+#include "player.hpp"
+#include "scene.hpp"
 
 namespace fs = std::filesystem;
 

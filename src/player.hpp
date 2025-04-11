@@ -3,7 +3,8 @@
 
 #include "config.hpp"
 
-#include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Texture.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 
 class Player {
 private:
