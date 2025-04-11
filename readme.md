@@ -13,7 +13,7 @@ build
 В папке Release вызываем cmake ../.. -G Ninja -DCMAKE_BUILD_TYPE=Release
 
 В папки Debug и Release копируем dll из SFML-2.6.2/bin (те файлы, у которых -d в конце)
-В папки Debug и Release копируем папку resources
+В папки Debug и Release копируем папку resources (те файлы, у которых нет -d в конце)
 
 
 Спрайты
