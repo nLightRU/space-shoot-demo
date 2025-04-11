@@ -3,6 +3,7 @@
 
 #include <SFML/System/Clock.hpp>
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 
 #include "config.hpp"
 #include "player.hpp"
@@ -18,7 +19,6 @@ int main() {
 
     std::string font_name = "VeniteAdoremus-rgRBA.ttf";
     fs::path font_path = fs::current_path() / "resources" / "fonts" / font_name;
-
     std::cout << font_path.string() << std::endl;
 
     sf::Font font;
@@ -35,6 +35,18 @@ int main() {
     start_text.setFillColor(sf::Color(100, 12, 171));
     start_text.setPosition(sf::Vector2f(100.f, 100.f));
 
+    std::string music_filename = "Battle in the Stars.ogg";
+    fs::path music_path = fs::current_path() / "resources" / "sounds" / music_filename;
+    sf::Music music;
+    if(!music.openFromFile(music_path.string())) {
+        if(DEBUG)
+            std::cout << "Error loading music" << std::endl;
+        return -1;
+    }
+
+    music.setLoop(true);
+    music.setVolume(5.f);
+
     Player* player = new Player(50.f, 50.f);
 
     sf::Text points_text;
@@ -48,7 +60,7 @@ int main() {
     Scene scene(player);
 
     bool game_started = false;
-
+    music.play();
     while(window.isOpen()) {
         sf::Event event;
         while(window.pollEvent(event)) {
