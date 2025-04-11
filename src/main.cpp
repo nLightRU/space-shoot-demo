@@ -14,6 +14,8 @@ int main() {
     sf::RenderWindow window(sf::VideoMode(640, 480), "Space Shoot");
     window.setFramerateLimit(60);
 
+    int points = 0;
+
     std::string font_name = "VeniteAdoremus-rgRBA.ttf";
     fs::path font_path = fs::current_path() / "resources" / "fonts" / font_name;
 
@@ -25,23 +27,27 @@ int main() {
         std::cout << "error loading font" << std::endl;
     }
 
-    sf::Text text;
+    sf::Text start_text;
 
-    text.setFont(font);
-    text.setString("Press SPACE for start");
-    text.setCharacterSize(24);
-    text.setFillColor(sf::Color(100, 12, 171));
-    text.setPosition(sf::Vector2f(100.f, 100.f));
+    start_text.setFont(font);
+    start_text.setString("Press SPACE for start");
+    start_text.setCharacterSize(24);
+    start_text.setFillColor(sf::Color(100, 12, 171));
+    start_text.setPosition(sf::Vector2f(100.f, 100.f));
 
-    Player player(50.f, 50.f);
+    Player* player = new Player(50.f, 50.f);
+
+    sf::Text points_text;
+    points_text.setFont(font);
+    points_text.setString("Points: " + std::to_string(player->points()));
+    points_text.setCharacterSize(12);
 
     sf::Clock enemies_timer;
     sf::Clock bullets_timer;
 
-    Scene scene(&player);
+    Scene scene(player);
 
     bool game_started = false;
-
 
     while(window.isOpen()) {
         sf::Event event;
@@ -61,6 +67,9 @@ int main() {
 
         if(game_started) { 
             scene.update_scene(event, bullets_timer, enemies_timer);
+
+            points_text.setString("Points: "  + std::to_string(player->points()));
+            window.draw(points_text);
 
             // Draw stars
             for(auto star : scene.stars()) {
@@ -85,7 +94,7 @@ int main() {
                 window.draw(enemy->sprite());
             }
         } else {
-            window.draw(text);
+            window.draw(start_text);
         }
         
         window.display();

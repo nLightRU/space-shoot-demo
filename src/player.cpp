@@ -6,7 +6,7 @@
 namespace fs = std::filesystem;
 
 Player::Player() : 
-m_x(295.f), m_y(450.f), m_speed(15.f),
+m_x(295.f), m_y(450.f), m_speed(15.f), m_points(0),
 m_texture()
 {
     std::string texture_sheet_filename = "M484VerticalShmupSet1.png";
@@ -16,7 +16,7 @@ m_texture()
 }
 
 Player::Player(float width, float height) : 
-m_x(295.f), m_y(430.f), m_speed(15.f),
+m_x(295.f), m_y(430.f), m_speed(15.f), m_points(0),
 m_texture()
 {
     std::string texture_sheet_filename = "M484VerticalShmupSet1.png";
@@ -56,4 +56,8 @@ void Player::move_left() {
 void Player::move_right() {
     m_x += m_speed;
     m_sprite.setPosition(m_x, m_y);
+}
+
+void Player::add_points(int points) {
+    m_points += points;
 }

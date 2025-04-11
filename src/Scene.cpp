@@ -32,6 +32,7 @@ void Scene::handle_bullets()
                     new DestroyEffect(m_enemies[j]->x(), m_enemies[j]->y(), m_texture_file.string())
                 );
                 m_enemies.erase(m_enemies.begin() + j);
+                m_player->add_points(50);
                 collision = true;
                 continue;
             }
