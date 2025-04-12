@@ -139,8 +139,12 @@ int main() {
             // Draw player
             window.draw(scene.player()->sprite());
     
-            // Draw bullets
+            // Draw player bullets
             for(auto bullet : scene.bullets()) {
+                window.draw(bullet->sprite());
+            }
+
+            for(auto bullet : scene.enemies_bullets()) {
                 window.draw(bullet->sprite());
             }
     
