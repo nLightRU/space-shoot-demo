@@ -38,6 +38,7 @@ void Scene::handle_bullets()
                 );
                 m_sounds.push_back(new sf::Sound(m_destroy_effect_buffer));
                 m_sounds.back()->setVolume(EFFECT_VOLUME);
+                m_sounds.back()->play();
                 m_enemies.erase(m_enemies.begin() + j);
                 m_player->add_points(50);
                 collision = true;
@@ -65,7 +66,7 @@ void Scene::handle_effects() {
 void Scene::handle_player(const sf::Event& e)
 {
     if(DEBUG) {
-        std::cout << e.key.code << std::endl;
+        std::cout << "KEY: " << e.key.code << std::endl;
     }
     if(e.key.code == sf::Keyboard::W && m_player->y() > 32.f) {
         m_player->move_up();

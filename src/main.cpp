@@ -114,16 +114,23 @@ int main() {
                 window.draw(enemy->sprite());
             }
             
-        
-            //A try to play sounds
+            // A try to play sounds
+            // TO DO: Refactor this
             for(size_t i = 0; i < scene.sounds().size(); ++i) {
-                if(DEBUG) std::cout << "sound: " << i << " " << "bufer: "<< scene.sounds().at(i)->getBuffer() << "volume: " << scene.sounds().at(i)->getVolume() << std::endl;
-                if(scene.sounds().at(i)->getStatus() != sf::SoundSource::Status::Paused) { 
-                    scene.sounds().at(i)->play();
-                    if(scene.sounds().at(i)->getPlayingOffset().asMilliseconds() >= 100) {
-                        scene.sounds().at(i)->pause();
-                        scene.sounds().erase(scene.sounds().begin() + i);
-                    }
+                if(DEBUG) {
+                    std::cout << "sound: " << i << " " << "bufer: "<< scene.sounds().at(i)->getBuffer() << std::endl;
+                    std::cout << "sounds: " << scene.sounds().size() << std::endl;
+                }
+
+                if(scene.sounds().at(i)->getStatus() == sf::SoundSource::Status::Stopped) { 
+                    // scene.sounds().at(i)->play();
+                }
+               
+            }
+            for(size_t i = 0; i < scene.sounds().size();++i) {
+                if(scene.sounds().at(i)->getPlayingOffset().asMilliseconds() >= 1000) {
+                    scene.sounds().at(i)->pause();
+                    scene.sounds().erase(scene.sounds().begin() + i);
                 }
             }
         } else {
