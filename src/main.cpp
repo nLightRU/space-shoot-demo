@@ -37,7 +37,7 @@ int main() {
     }
     
     sf::Text game_title_text;
-    std::string game_title_text_str = "SPACE SHOOT v0.1.1";
+    std::string game_title_text_str = "SPACE SHOOT v0.2.0";
     size_t game_title_text_characters_size = 24;
     sf::Color game_title_text_color(254, 101, 1);
     game_title_text.setFont(font);
@@ -108,7 +108,7 @@ int main() {
     sf::Clock enemies_timer;
     sf::Clock bullets_timer;
 
-    Scene scene(player);
+    Scene* scene = new Scene(player);
 
     if(MUSIC)
         music.play();
@@ -124,14 +124,18 @@ int main() {
             }
             
             if(game_is_playing) {
-                scene.handle_player(event);
+                scene->handle_player(event);
             } 
             if(game_is_over) {
+                delete scene;
                 if(event.key.code == sf::Keyboard::Space) {
                     game_is_playing = true;
                     game_is_over = false;
                     player->set_points(0);
-                    player->set_health(20);
+                    player->set_health(60);
+                    scene = new Scene(player);
+                    enemies_timer.restart();
+                    bullets_timer.restart();
                     points_text.setCharacterSize(12);
                     points_text.setPosition(sf::Vector2f(0.f, 0.f));
                 }
@@ -157,7 +161,7 @@ int main() {
             }
             
             if(!game_is_over) {
-                scene.update_scene(event, bullets_timer, enemies_timer);
+                scene->update_scene(event, bullets_timer, enemies_timer);
                 bool destroy_sound = false;
 
                 points_text.setString("Points: "  + std::to_string(player->points()));
@@ -167,30 +171,30 @@ int main() {
                 window.draw(players_health_text);
 
                 // Draw stars
-                for(auto star : scene.stars()) {
+                for(auto star : scene->stars()) {
                     window.draw(star->sprite());
                 }
         
                 // Draw effects
-                for(auto effect : scene.effects()) {
+                for(auto effect : scene->effects()) {
                     window.draw(effect->sprite());
                     destroy_sound = true;
                 }
         
                 // Draw player
-                window.draw(scene.player()->sprite());
+                window.draw(scene->player()->sprite());
         
                 // Draw player bullets
-                for(auto bullet : scene.bullets()) {
+                for(auto bullet : scene->bullets()) {
                     window.draw(bullet->sprite());
                 }
 
-                for(auto bullet : scene.enemies_bullets()) {
+                for(auto bullet : scene->enemies_bullets()) {
                     window.draw(bullet->sprite());
                 }
         
                 // Draw enemies
-                for(auto enemy : scene.enemies()) {
+                for(auto enemy : scene->enemies()) {
                     window.draw(enemy->sprite());
                 }
             }   
