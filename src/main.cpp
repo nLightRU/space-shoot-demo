@@ -35,14 +35,38 @@ int main() {
             std::cout << "error loading font" << std::endl;
 #endif
     }
+    
+    sf::Text game_title_text;
+    std::string game_title_text_str = "SPACE SHOOT v0.1.1";
+    size_t game_title_text_characters_size = 24;
+    sf::Color game_title_text_color(254, 101, 1);
+    game_title_text.setFont(font);
+    game_title_text.setString(game_title_text_str);
+    game_title_text.setCharacterSize(game_title_text_characters_size);
+    game_title_text.setFillColor(game_title_text_color);
+    game_title_text.setPosition(
+        sf::Vector2f(
+            (WINDOW_WIDTH - game_title_text.getLocalBounds().getSize().x) / 2,
+            (WINDOW_HEIGHT - game_title_text_characters_size) / 4
+        )
+    );
 
-    sf::Text start_text;
 
-    start_text.setFont(font);
-    start_text.setString("Press SPACE for start");
-    start_text.setCharacterSize(24);
-    start_text.setFillColor(sf::Color(100, 12, 171));
-    start_text.setPosition(sf::Vector2f(100.f, 100.f));
+    sf::Text press_start_text;
+    std::string press_start_text_str = "Press SPACE for start";
+    size_t start_text_charachers_size = 20;
+    sf::Color press_start_text_color(100, 12, 171);
+    press_start_text.setFont(font);
+    press_start_text.setString(press_start_text_str);
+    press_start_text.setCharacterSize(start_text_charachers_size);
+    press_start_text.setFillColor(press_start_text_color);
+    press_start_text.setPosition(
+        sf::Vector2f(
+             (WINDOW_WIDTH - press_start_text.getLocalBounds().getSize().x) / 2,
+             (WINDOW_HEIGHT - start_text_charachers_size) / 2
+        )
+    );
+
 
     std::string music_filename = "Battle in the Stars.ogg";
     fs::path music_path = fs::current_path() / "resources" / "sounds" / music_filename;
@@ -72,7 +96,7 @@ int main() {
     if(MUSIC)
         music.play();
 
-    bool game_started = false;
+    bool game_is_playing = false;
 
     while(window.isOpen()) {
         sf::Event event;
@@ -81,16 +105,20 @@ int main() {
                 window.close();
             }
             
-            if(game_started)
+            if(game_is_playing)
                 scene.handle_player(event);
 
             if(event.key.code == sf::Keyboard::Space)
-                game_started = true;
+                game_is_playing = true;
+
+            if(event.key.code == sf::Keyboard::Escape) {
+                game_is_playing = false;
+            }
         }
 
         window.clear();
 
-        if(game_started) { 
+        if(game_is_playing) { 
             scene.update_scene(event, bullets_timer, enemies_timer);
             bool destroy_sound = false;
 
@@ -121,7 +149,8 @@ int main() {
                 window.draw(enemy->sprite());
             }
         } else {
-            window.draw(start_text);
+            window.draw(game_title_text);
+            window.draw(press_start_text);
         }
         
         window.display();
