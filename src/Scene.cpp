@@ -1,7 +1,9 @@
+#ifdef GAME_DEBUG
 #include <iostream>
+#endif
 #include <cstdlib>
 #include <ctime>
-#include <iostream>
+#include <algorithm>
 
 #include <SFML/Window/Event.hpp>
 #include <SFML/Audio/Sound.hpp>
@@ -23,10 +25,12 @@ void Scene::_create_stars()
     }
 }
 
-// TO DO: check can we make private inline funcion for adding effect
-// inline void Scene::_add_destroy_effect();
+// TODO: check can we make private inline funcion for adding effect inline void Scene::_add_destroy_effect();
+// TODO: check can we rewrite loop in (for auto bullet : bullets) form
+// TODO: move sounds to _handle_effect_function
 void Scene::_handle_bullets()
 {
+    // Moving player bullets and checking collisions
     for(size_t i = 0; i < m_bullets.size(); ++i) {
         bool collision = false;
         m_bullets[i]->move();
@@ -51,6 +55,17 @@ void Scene::_handle_bullets()
             m_bullets.erase(m_bullets.begin() + i);
         }
     }
+    
+    // Moving enemies bullets and checking collision
+#ifdef GAME_DEBUG
+    std::cout << "Enemies bullets: " << m_enemies_bullets.size() << std::endl;
+#endif
+    for(auto bullet : m_enemies_bullets) {
+        bullet->move();
+        if(bullet->y() < 0.f) {
+            m_enemies_bullets.erase(std::find(m_enemies_bullets.begin(), m_enemies_bullets.end(), bullet));
+        }
+    }
 }
 
 void Scene::_handle_effects() {
@@ -71,22 +86,6 @@ void Scene::_delete_sounds() {
     }
 }
 
-void Scene::handle_player(const sf::Event& e)
-{
-#ifdef GAME_DEBUG
-    std::cout << "KEY: " << e.key.code << std::endl;
-#endif
-    if(e.key.code == sf::Keyboard::W && m_player->y() > 32.f) {
-        m_player->move_up();
-    } else if (e.key.code == sf::Keyboard::A && m_player->x() > 32.f) {
-        m_player->move_left();
-    } else if (e.key.code == sf::Keyboard::S && m_player->y() < WINDOW_HEIGHT - 32.f) {
-        m_player->move_down();
-    } else if (e.key.code == sf::Keyboard::D && m_player->x() < WINDOW_WIDTH - 32.f) {
-        m_player->move_right();
-    }
-}
-
 bool Scene::_check_collision(const Bullet* b, const Enemy* e) {
     if(b->x() > e->x() && b->x() < (e->x() + e->w())) {
         if(b->y() > e->y() && b->y() < (e->y() + e->h())) {
@@ -95,6 +94,28 @@ bool Scene::_check_collision(const Bullet* b, const Enemy* e) {
     }
     return false;
 }
+
+void Scene::_handle_enemies(sf::Clock& enemies_timer)
+{
+    // Adds new enemy if need
+    if(enemies_timer.getElapsedTime().asSeconds() > 2.f && m_enemies.size() < m_enemies_num ) {
+        float x = rand() % 500;
+        float y = rand() % 100;
+        m_enemies.push_back(new Enemy(x, y, 40.f, 30.f));
+        enemies_timer.restart();
+    }
+
+    for(auto enemy : m_enemies) {
+        if(enemy->new_bullet()) {
+            m_enemies_bullets.push_back(
+                new Bullet(enemy->x(), enemy->y() + 4.f, 7.f)
+            );
+        }
+    }
+    // TODO: enemies movement
+}
+
+
 
 Scene::Scene() {
 
@@ -126,11 +147,23 @@ Scene::~Scene()
 
 }
 
-void Scene::add_object()
+void Scene::handle_player(const sf::Event& e)
 {
-
+#ifdef GAME_DEBUG
+    std::cout << "KEY: " << e.key.code << std::endl;
+#endif
+    if(e.key.code == sf::Keyboard::W && m_player->y() > 32.f) {
+        m_player->move_up();
+    } else if (e.key.code == sf::Keyboard::A && m_player->x() > 32.f) {
+        m_player->move_left();
+    } else if (e.key.code == sf::Keyboard::S && m_player->y() < WINDOW_HEIGHT - 32.f) {
+        m_player->move_down();
+    } else if (e.key.code == sf::Keyboard::D && m_player->x() < WINDOW_WIDTH - 32.f) {
+        m_player->move_right();
+    }
 }
 
+// TODO: remove enemies_time from main loop and make it inside Scene class
 void Scene::update_scene(const sf::Event& e, sf::Clock& bullets_timer, sf::Clock& enemies_timer)
 {
     //Moves stars
@@ -144,13 +177,7 @@ void Scene::update_scene(const sf::Event& e, sf::Clock& bullets_timer, sf::Clock
         bullets_timer.restart();
     }
 
-    // Adds new enemy if need
-    if(enemies_timer.getElapsedTime().asSeconds() > 2.f && m_enemies.size() < m_enemies_num ) {
-        float x = rand() % 500;
-        float y = rand() % 100;
-        m_enemies.push_back(new Enemy(x, y, 40.f, 30.f));
-        enemies_timer.restart();
-    }
+    _handle_enemies(enemies_timer);
 
     // Checks bullets collisions with enemies
     // Creates effects
