@@ -60,12 +60,22 @@ int main() {
     press_start_text.setString(press_start_text_str);
     press_start_text.setCharacterSize(start_text_charachers_size);
     press_start_text.setFillColor(press_start_text_color);
-    press_start_text.setPosition(
+       
+
+    sf::Text game_over_text;
+    std::string game_over_text_str = "GAME OVER";
+    size_t game_over_text_characters_size = 24;
+    sf::Color game_over_text_color(179, 45, 69);
+    game_over_text.setFont(font);
+    game_over_text.setString(game_over_text_str);
+    game_over_text.setCharacterSize(game_over_text_characters_size);
+    game_over_text.setFillColor(game_over_text_color);
+    game_over_text.setPosition(
         sf::Vector2f(
-             (WINDOW_WIDTH - press_start_text.getLocalBounds().getSize().x) / 2,
-             (WINDOW_HEIGHT - start_text_charachers_size) / 2
+            (WINDOW_WIDTH - game_over_text.getLocalBounds().getSize().x) / 2,
+            (WINDOW_HEIGHT - game_over_text_characters_size) / 4
         )
-    );    
+    );
 
     std::string music_filename = "Battle in the Stars.ogg";
     fs::path music_path = fs::current_path() / "resources" / "sounds" / music_filename;
@@ -104,6 +114,7 @@ int main() {
         music.play();
 
     bool game_is_playing = false;
+    bool game_is_over = false;
 
     while(window.isOpen()) {
         sf::Event event;
@@ -112,61 +123,110 @@ int main() {
                 window.close();
             }
             
-            if(game_is_playing)
+            if(game_is_playing) {
                 scene.handle_player(event);
+            } 
+            if(game_is_over) {
+                if(event.key.code == sf::Keyboard::Space) {
+                    game_is_playing = true;
+                    game_is_over = false;
+                    player->set_points(0);
+                    player->set_health(20);
+                    points_text.setCharacterSize(12);
+                    points_text.setPosition(sf::Vector2f(0.f, 0.f));
+                }
+            } 
+            if(!game_is_over && !game_is_playing) {
+                if(event.key.code == sf::Keyboard::Space)
+                    game_is_playing = true;
 
-            if(event.key.code == sf::Keyboard::Space)
-                game_is_playing = true;
-
-            if(event.key.code == sf::Keyboard::Escape) {
-                game_is_playing = false;
+                if(event.key.code == sf::Keyboard::Escape) {
+                    game_is_playing = false;
+                }
             }
+
+
         }
 
         window.clear();
 
         if(game_is_playing) { 
-            scene.update_scene(event, bullets_timer, enemies_timer);
-            bool destroy_sound = false;
+            if(player->health() <= 0) {
+                game_is_over = true;
+                game_is_playing = false;
+            }
+            
+            if(!game_is_over) {
+                scene.update_scene(event, bullets_timer, enemies_timer);
+                bool destroy_sound = false;
 
-            points_text.setString("Points: "  + std::to_string(player->points()));
+                points_text.setString("Points: "  + std::to_string(player->points()));
+                window.draw(points_text);
+
+                players_health_text.setString("Health: " + std::to_string(player->health()));
+                window.draw(players_health_text);
+
+                // Draw stars
+                for(auto star : scene.stars()) {
+                    window.draw(star->sprite());
+                }
+        
+                // Draw effects
+                for(auto effect : scene.effects()) {
+                    window.draw(effect->sprite());
+                    destroy_sound = true;
+                }
+        
+                // Draw player
+                window.draw(scene.player()->sprite());
+        
+                // Draw player bullets
+                for(auto bullet : scene.bullets()) {
+                    window.draw(bullet->sprite());
+                }
+
+                for(auto bullet : scene.enemies_bullets()) {
+                    window.draw(bullet->sprite());
+                }
+        
+                // Draw enemies
+                for(auto enemy : scene.enemies()) {
+                    window.draw(enemy->sprite());
+                }
+            }   
+        } 
+
+        if (game_is_over) {
+            // DRAW GAME OVER
+            window.draw(game_over_text);
+            points_text.setCharacterSize(24);
+            points_text.setPosition(
+                sf::Vector2f(
+                    (WINDOW_WIDTH - press_start_text.getLocalBounds().getSize().x) / 2,
+                    (WINDOW_HEIGHT - start_text_charachers_size) / 2
+               )
+            );
             window.draw(points_text);
+            press_start_text.setPosition(
+                sf::Vector2f(
+                     (WINDOW_WIDTH - press_start_text.getLocalBounds().getSize().x) / 2,
+                     (WINDOW_HEIGHT - start_text_charachers_size) / 2 + 50.f
+                )
+            ); 
+            window.draw(press_start_text);
+        } 
 
-            players_health_text.setString("Health: " + std::to_string(player->health()));
-            window.draw(players_health_text);
-
-            // Draw stars
-            for(auto star : scene.stars()) {
-                window.draw(star->sprite());
-            }
-    
-            // Draw effects
-            for(auto effect : scene.effects()) {
-                window.draw(effect->sprite());
-                destroy_sound = true;
-            }
-    
-            // Draw player
-            window.draw(scene.player()->sprite());
-    
-            // Draw player bullets
-            for(auto bullet : scene.bullets()) {
-                window.draw(bullet->sprite());
-            }
-
-            for(auto bullet : scene.enemies_bullets()) {
-                window.draw(bullet->sprite());
-            }
-    
-            // Draw enemies
-            for(auto enemy : scene.enemies()) {
-                window.draw(enemy->sprite());
-            }
-        } else {
+        if(!game_is_over && !game_is_playing) {
+            // DRAW MAIN MENU SCREEN
             window.draw(game_title_text);
+            press_start_text.setPosition(
+                sf::Vector2f(
+                     (WINDOW_WIDTH - press_start_text.getLocalBounds().getSize().x) / 2,
+                     (WINDOW_HEIGHT - start_text_charachers_size) / 2
+                )
+            ); 
             window.draw(press_start_text);
         }
-        
         window.display();
     }
 

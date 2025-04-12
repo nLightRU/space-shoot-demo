@@ -35,6 +35,8 @@ public:
     void move_left();
     void move_right();
 
+    void set_points(int points) { m_points = points;}
+    void set_health(int health) { m_health = health; }
     void add_points(int points);
 };
 #endif // __PLAYER_H__

@@ -19,7 +19,7 @@ m_texture()
 Player::Player(float width, float height) : 
 m_x(295.f), m_y(430.f), m_w(width), m_h(height),
 m_speed(15.f), 
-m_health(100),
+m_health(20),
 m_points(0),
 m_texture()
 {
