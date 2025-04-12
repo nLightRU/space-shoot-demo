@@ -15,8 +15,10 @@ m_texture()
     m_texture = sf::Texture();
 }
 
+// TODO: remake to Player(x, y, w, h) : m_x(x), m_y(y), ...
 Player::Player(float width, float height) : 
-m_x(295.f), m_y(430.f), m_speed(15.f), 
+m_x(295.f), m_y(430.f), m_w(width), m_h(height),
+m_speed(15.f), 
 m_health(100),
 m_points(0),
 m_texture()

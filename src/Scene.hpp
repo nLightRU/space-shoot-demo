@@ -44,6 +44,7 @@ private:
 private:
     void _create_stars();    
     bool _check_collision(const Bullet* b, const Enemy* e);
+    bool _check_collision_player(const Bullet* b);
     void _handle_enemies(sf::Clock& enemies_timer);
     void _handle_bullets();
     void _handle_effects();

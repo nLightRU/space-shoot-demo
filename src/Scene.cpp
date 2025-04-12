@@ -25,6 +25,24 @@ void Scene::_create_stars()
     }
 }
 
+bool Scene::_check_collision(const Bullet* b, const Enemy* e) {
+    if(b->x() > e->x() && b->x() < (e->x() + e->w())) {
+        if(b->y() > e->y() && b->y() < (e->y() + e->h())) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Scene::_check_collision_player(const Bullet* b) {
+    if(b->x() > m_player->x() && b->x() < (m_player->x() + m_player->w())) {
+        if(b->y() > m_player->y() && b->y() < (m_player->y() + m_player->h())) {
+            return true;
+        }
+    }
+    return false;
+}
+
 // TODO: check can we make private inline funcion for adding effect inline void Scene::_add_destroy_effect();
 // TODO: check can we rewrite loop in (for auto bullet : bullets) form
 // TODO: move sounds to _handle_effect_function
@@ -64,10 +82,12 @@ void Scene::_handle_bullets()
     std::cout << "Enemies bullets: " << m_enemies_bullets.size() << std::endl;
 #endif
     for(size_t i = 0; i < m_enemies_bullets.size(); ++i) {
-        bool collision = false;
+        bool collision = _check_collision_player(m_enemies_bullets[i]);
         m_enemies_bullets[i]->move();
         if(collision) {
-            // TODO: reduce player health
+            // TODO: add damage from bullet after damage is added to the Bullet class
+            m_player->apply_damage(20.f);
+            m_enemies_bullets.erase(m_enemies_bullets.begin() + i);
         } else if (m_enemies_bullets[i]->y() > WINDOW_HEIGHT) {
             m_enemies_bullets.erase(m_enemies_bullets.begin() + i);
         }
@@ -90,15 +110,6 @@ void Scene::_delete_sounds() {
             m_sounds.erase(m_sounds.begin() + i);
         }
     }
-}
-
-bool Scene::_check_collision(const Bullet* b, const Enemy* e) {
-    if(b->x() > e->x() && b->x() < (e->x() + e->w())) {
-        if(b->y() > e->y() && b->y() < (e->y() + e->h())) {
-            return true;
-        }
-    }
-    return false;
 }
 
 void Scene::_handle_enemies(sf::Clock& enemies_timer)
@@ -169,7 +180,7 @@ void Scene::handle_player(const sf::Event& e)
     }
 }
 
-// TODO: remove enemies_time from main loop and make it inside Scene class
+// TODO: remove enemies_timer from main loop and make it inside Scene class
 void Scene::update_scene(const sf::Event& e, sf::Clock& bullets_timer, sf::Clock& enemies_timer)
 {
     //Moves stars

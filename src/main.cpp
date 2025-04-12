@@ -80,7 +80,7 @@ int main() {
     music.setLoop(true);
     music.setVolume(MUSIC_VOLUME);
 
-    Player* player = new Player(50.f, 50.f);
+    Player* player = new Player(40.f, 40.f);
 
     sf::Text points_text;
     points_text.setFont(font);
@@ -94,7 +94,6 @@ int main() {
     players_health_text.setString("Health: " + std::to_string(player->health()));
     players_health_text.setCharacterSize(12);
     players_health_text.setPosition(sf::Vector2f(0.f, 15.f));
-
 
     sf::Clock enemies_timer;
     sf::Clock bullets_timer;

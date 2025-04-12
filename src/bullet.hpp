@@ -4,6 +4,7 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 
+// TODO: add damage to the Bullet class
 class Bullet
 {
 private:

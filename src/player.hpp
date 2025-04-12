@@ -9,6 +9,7 @@
 class Player {
 private:
     float m_x, m_y;
+    float m_w, m_h;
     float m_speed;
     int m_health;
     int m_points;
@@ -21,6 +22,8 @@ public:
     
     float x() const { return m_x; }
     float y() const { return m_y; }
+    float w() const { return m_w; } 
+    float h() const { return m_h; }
     int health() const { return m_health; }
     int points() const { return m_points; }
     const sf::Sprite& sprite() const { return m_sprite; }
