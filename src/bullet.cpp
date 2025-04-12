@@ -9,8 +9,8 @@ Bullet::Bullet()
 
 }
 
-Bullet::Bullet(float x, float y) : 
-m_x(x), m_y(y), m_speed(7.f),
+Bullet::Bullet(float x, float y, float speed) : 
+m_x(x), m_y(y), m_speed(speed),
 m_texture()
 {
     std::string texture_sheet_filename = "M484VerticalShmupSet1.png";
@@ -29,6 +29,6 @@ Bullet::~Bullet()
 
 void Bullet::move() 
 {
-    m_y -= m_speed;
+    m_y += m_speed;
     m_sprite.setPosition(m_x, m_y);
 }
