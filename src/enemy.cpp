@@ -20,6 +20,7 @@ m_texture()
 
 Enemy::Enemy(float x, float y, float w, float h) : 
 m_x(x), m_y(y), m_w(w), m_h(h), 
+m_bullet_timer(),
 m_texture()
 {
     std::string texture_sheet_filename = "M484VerticalShmupSet1.png";
@@ -61,6 +62,15 @@ m_texture()
 Enemy::~Enemy()
 {
 
+}
+
+bool Enemy::new_bullet()
+{
+    if(m_bullet_timer.getElapsedTime().asMilliseconds() >= m_bullet_cooldown) {
+        m_bullet_timer.restart();
+        return true;
+    }
+    return false;
 }
 
 void Enemy::move()

@@ -1,6 +1,7 @@
 #ifndef __ENEMY_H__
 #define __ENEMY_H__
 
+#include <SFML/System/Clock.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 
@@ -8,8 +9,12 @@ class Enemy {
 private:
     float m_x, m_y;
     float m_w, m_h;
+
     sf::Texture m_texture;
     sf::Sprite m_sprite;
+
+    sf::Clock m_bullet_timer;
+    const float m_bullet_cooldown = 2000.f;
 public:
     Enemy();
     Enemy(float x, float y, float w, float h);
@@ -21,6 +26,7 @@ public:
     float h() const { return m_h; }
     const sf::Sprite& sprite() const { return m_sprite; }
 
+    bool new_bullet();
     void move();
 };
 #endif // __ENEMY_H__
