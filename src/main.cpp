@@ -1,6 +1,9 @@
-#include <filesystem>
+#ifdef GAME_DEBUG
 #include <iostream>
-#include <algorithm>
+#endif
+
+#include <filesystem>
+// #include <algorithm>
 
 #include <SFML/System/Clock.hpp>
 #include <SFML/Graphics.hpp>
@@ -21,13 +24,16 @@ int main() {
 
     std::string font_name = "VeniteAdoremus-rgRBA.ttf";
     fs::path font_path = fs::current_path() / "resources" / "fonts" / font_name;
+#ifdef GAME_DEBUG
     std::cout << font_path.string() << std::endl;
+#endif
 
     sf::Font font;
 
     if(!font.loadFromFile(font_path.string())) {
-        if(DEBUG)
+#ifdef GAME_DEBUG
             std::cout << "error loading font" << std::endl;
+#endif
     }
 
     sf::Text start_text;
@@ -42,8 +48,9 @@ int main() {
     fs::path music_path = fs::current_path() / "resources" / "sounds" / music_filename;
     sf::Music music;
     if(!music.openFromFile(music_path.string())) {
-        if(DEBUG)
-            std::cout << "Error loading music" << std::endl;
+#ifdef GAME_DEBUG
+        std::cout << "Error loading music" << std::endl;
+#endif
         return -1;
     }
 
@@ -112,26 +119,6 @@ int main() {
             // Draw enemies
             for(auto enemy : scene.enemies()) {
                 window.draw(enemy->sprite());
-            }
-            
-            // A try to play sounds
-            // TO DO: Refactor this
-            for(size_t i = 0; i < scene.sounds().size(); ++i) {
-                if(DEBUG) {
-                    std::cout << "sound: " << i << " " << "bufer: "<< scene.sounds().at(i)->getBuffer() << std::endl;
-                    std::cout << "sounds: " << scene.sounds().size() << std::endl;
-                }
-
-                if(scene.sounds().at(i)->getStatus() == sf::SoundSource::Status::Stopped) { 
-                    // scene.sounds().at(i)->play();
-                }
-               
-            }
-            for(size_t i = 0; i < scene.sounds().size();++i) {
-                if(scene.sounds().at(i)->getPlayingOffset().asMilliseconds() >= 1000) {
-                    scene.sounds().at(i)->pause();
-                    scene.sounds().erase(scene.sounds().begin() + i);
-                }
             }
         } else {
             window.draw(start_text);

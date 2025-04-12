@@ -21,13 +21,13 @@ m_texture()
 {
     std::string texture_sheet_filename = "M484VerticalShmupSet1.png";
     fs::path texture_file = fs::current_path().append("resources").append("textures").append(texture_sheet_filename);
-    if(DEBUG) {
-        std::cout << texture_file << std::endl;
-    }
+#ifdef GAME_DEBUG
+    std::cout << texture_file << std::endl;
+#endif    
     if(!m_texture.loadFromFile(texture_file.string(), sf::IntRect(800, 256, 20, 20))) {
-        if(DEBUG) {
-            std::cout << "error loading player texture" << std::endl;
-        }
+#ifdef GAME_DEBUG
+    std::cout << "error loading player texture" << std::endl;
+#endif
     }
     m_sprite.scale(sf::Vector2f(2.f, 2.f));
     m_sprite.setTexture(m_texture);

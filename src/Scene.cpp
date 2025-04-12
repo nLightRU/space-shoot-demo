@@ -12,7 +12,7 @@
 #include "bullet.hpp"
 #include "enemy.hpp"
 
-void Scene::create_stars()
+void Scene::_create_stars()
 {
     srand(time({}));
     m_stars.reserve(200);
@@ -25,13 +25,13 @@ void Scene::create_stars()
 
 // TO DO: check can we make private inline funcion for adding effect
 // inline void Scene::_add_destroy_effect();
-void Scene::handle_bullets()
+void Scene::_handle_bullets()
 {
     for(size_t i = 0; i < m_bullets.size(); ++i) {
         bool collision = false;
         m_bullets[i]->move();
         for(size_t j = 0; j < m_enemies.size(); ++j) {
-            if(check_collision(m_bullets[i], m_enemies[j])) {
+            if(_check_collision(m_bullets[i], m_enemies[j])) {
                 m_bullets.erase(m_bullets.begin() + i);
                 m_effects.push_back(
                     new DestroyEffect(m_enemies[j]->x(), m_enemies[j]->y(), m_texture_file.string())
@@ -53,7 +53,7 @@ void Scene::handle_bullets()
     }
 }
 
-void Scene::handle_effects() {
+void Scene::_handle_effects() {
     for(size_t i = 0; i < m_effects.size(); ++i) {
         if(m_effects[i]->has_next_sprite()) {
             m_effects[i]->set_next_sprite();
@@ -63,7 +63,7 @@ void Scene::handle_effects() {
     }
 }
 
-void Scene::delete_sounds() {
+void Scene::_delete_sounds() {
     for(size_t i = 0; i < m_sounds.size(); ++i) {
         if(m_sounds.at(i)->getStatus() == sf::SoundSource::Status::Stopped) {
             m_sounds.erase(m_sounds.begin() + i);
@@ -73,9 +73,9 @@ void Scene::delete_sounds() {
 
 void Scene::handle_player(const sf::Event& e)
 {
-    if(DEBUG) {
-        std::cout << "KEY: " << e.key.code << std::endl;
-    }
+#ifdef GAME_DEBUG
+    std::cout << "KEY: " << e.key.code << std::endl;
+#endif
     if(e.key.code == sf::Keyboard::W && m_player->y() > 32.f) {
         m_player->move_up();
     } else if (e.key.code == sf::Keyboard::A && m_player->x() > 32.f) {
@@ -87,7 +87,7 @@ void Scene::handle_player(const sf::Event& e)
     }
 }
 
-bool Scene::check_collision(const Bullet* b, const Enemy* e) {
+bool Scene::_check_collision(const Bullet* b, const Enemy* e) {
     if(b->x() > e->x() && b->x() < (e->x() + e->w())) {
         if(b->y() > e->y() && b->y() < (e->y() + e->h())) {
             return true;
@@ -109,12 +109,13 @@ m_destroy_effect_buffer(),
 m_destroy_sound(),
 m_sounds()
 {
-    create_stars();
+    _create_stars();
     std::string texture_sheet_filename = "M484VerticalShmupSet1.png";
     m_texture_file = fs::current_path().append("resources").append("textures").append(texture_sheet_filename);    
     if(!m_destroy_effect_buffer.loadFromFile(c_destroy_effect_sound)) {
-        if(DEBUG)
-            std::cout << "Error loading sound buffer" << std::endl;
+#ifdef GAME_DEBUG
+    std::cout << "Error loading sound buffer" << std::endl;
+#endif
     }
     m_destroy_sound.setBuffer(m_destroy_effect_buffer);
     m_destroy_sound.setVolume(EFFECT_VOLUME);
@@ -153,10 +154,10 @@ void Scene::update_scene(const sf::Event& e, sf::Clock& bullets_timer, sf::Clock
 
     // Checks bullets collisions with enemies
     // Creates effects
-    handle_bullets();
+    _handle_bullets();
 
     //Effects
-    handle_effects();
+    _handle_effects();
 
-    delete_sounds();
+    _delete_sounds();
 }

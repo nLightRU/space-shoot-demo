@@ -40,11 +40,11 @@ private:
     std::vector<sf::Sound*> m_sounds;
 
 private:
-    void create_stars();    
-    bool check_collision(const Bullet* b, const Enemy* e);
-    void handle_bullets();
-    void handle_effects();
-    void delete_sounds();
+    void _create_stars();    
+    bool _check_collision(const Bullet* b, const Enemy* e);
+    void _handle_bullets();
+    void _handle_effects();
+    void _delete_sounds();
 public:
     Scene();
     Scene(Player* player);
@@ -62,5 +62,4 @@ public:
     void handle_player(const sf::Event& e);
     void update_scene(const sf::Event& e, sf::Clock& bullets_timer, sf::Clock& enemies_timer);
 };
-
 #endif // __SCENE_H__

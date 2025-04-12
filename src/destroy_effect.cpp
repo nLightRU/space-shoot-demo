@@ -1,4 +1,7 @@
+#ifdef GAME_DEBUG
 #include <iostream>
+#endif
+
 #include <string>
 #include <filesystem>
 

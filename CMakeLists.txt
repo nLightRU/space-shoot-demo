@@ -20,6 +20,7 @@ target_include_directories(${CMAKE_PROJECT_NAME} PUBLIC ${SFML_INCLUDE_DIR})
 target_link_directories(${CMAKE_PROJECT_NAME} PUBLIC ${SFML_LIB_DIR})
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE GAME_DEBUG)
     target_link_libraries(${CMAKE_PROJECT_NAME} sfml-graphics-d sfml-system-d sfml-window-d sfml-audio-d)
 else()
     target_link_libraries(${CMAKE_PROJECT_NAME} sfml-graphics sfml-system sfml-window sfml-audio)

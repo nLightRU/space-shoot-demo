@@ -1,4 +1,7 @@
+#ifdef GAME_DEBUG
 #include <iostream>
+#endif
+
 #include <filesystem>
 
 #include <SFML/Graphics/Rect.hpp>
@@ -46,9 +49,9 @@ m_texture()
     }
 
     if(!m_texture.loadFromFile(texture_file.string(), r)) {
-        if(DEBUG) {
+#ifdef GAME_DEBUG
             std::cout << "error load enemy texture" << std::endl;
-        }
+#endif
     }
 
     m_sprite.setTexture(m_texture);
