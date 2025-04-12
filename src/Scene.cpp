@@ -63,6 +63,14 @@ void Scene::handle_effects() {
     }
 }
 
+void Scene::delete_sounds() {
+    for(size_t i = 0; i < m_sounds.size(); ++i) {
+        if(m_sounds.at(i)->getStatus() == sf::SoundSource::Status::Stopped) {
+            m_sounds.erase(m_sounds.begin() + i);
+        }
+    }
+}
+
 void Scene::handle_player(const sf::Event& e)
 {
     if(DEBUG) {
@@ -149,4 +157,6 @@ void Scene::update_scene(const sf::Event& e, sf::Clock& bullets_timer, sf::Clock
 
     //Effects
     handle_effects();
+
+    delete_sounds();
 }

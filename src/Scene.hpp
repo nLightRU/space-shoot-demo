@@ -44,6 +44,7 @@ private:
     bool check_collision(const Bullet* b, const Enemy* e);
     void handle_bullets();
     void handle_effects();
+    void delete_sounds();
 public:
     Scene();
     Scene(Player* player);
