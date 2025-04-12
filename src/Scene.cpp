@@ -31,6 +31,9 @@ void Scene::_create_stars()
 void Scene::_handle_bullets()
 {
     // Moving player bullets and checking collisions
+#ifdef GAME_DEBUG
+    std::cout << "Player bullets: " << m_bullets.size() << std::endl;
+#endif
     for(size_t i = 0; i < m_bullets.size(); ++i) {
         bool collision = false;
         m_bullets[i]->move();
@@ -51,7 +54,7 @@ void Scene::_handle_bullets()
         }
         if(collision) {
             continue;
-        } else if(m_bullets[i]->y() > WINDOW_HEIGHT ) {
+        } else if(m_bullets[i]->y() < 0.f ) {
             m_bullets.erase(m_bullets.begin() + i);
         }
     }
@@ -60,10 +63,13 @@ void Scene::_handle_bullets()
 #ifdef GAME_DEBUG
     std::cout << "Enemies bullets: " << m_enemies_bullets.size() << std::endl;
 #endif
-    for(auto bullet : m_enemies_bullets) {
-        bullet->move();
-        if(bullet->y() < 0.f) {
-            m_enemies_bullets.erase(std::find(m_enemies_bullets.begin(), m_enemies_bullets.end(), bullet));
+    for(size_t i = 0; i < m_enemies_bullets.size(); ++i) {
+        bool collision = false;
+        m_enemies_bullets[i]->move();
+        if(collision) {
+            // TODO: reduce player health
+        } else if (m_enemies_bullets[i]->y() > WINDOW_HEIGHT) {
+            m_enemies_bullets.erase(m_enemies_bullets.begin() + i);
         }
     }
 }
@@ -108,7 +114,7 @@ void Scene::_handle_enemies(sf::Clock& enemies_timer)
     for(auto enemy : m_enemies) {
         if(enemy->new_bullet()) {
             m_enemies_bullets.push_back(
-                new Bullet(enemy->x(), enemy->y() + 4.f, 7.f)
+                new Bullet(enemy->x(), enemy->y() + 4.f, false)
             );
         }
     }
