@@ -65,8 +65,7 @@ int main() {
              (WINDOW_WIDTH - press_start_text.getLocalBounds().getSize().x) / 2,
              (WINDOW_HEIGHT - start_text_charachers_size) / 2
         )
-    );
-
+    );    
 
     std::string music_filename = "Battle in the Stars.ogg";
     fs::path music_path = fs::current_path() / "resources" / "sounds" / music_filename;
@@ -87,6 +86,15 @@ int main() {
     points_text.setFont(font);
     points_text.setString("Points: " + std::to_string(player->points()));
     points_text.setCharacterSize(12);
+    points_text.setPosition(sf::Vector2f(0.f, 0.f));
+
+    // TODO: change health color to green / yellow / red
+    sf::Text players_health_text;
+    players_health_text.setFont(font);
+    players_health_text.setString("Health: " + std::to_string(player->health()));
+    players_health_text.setCharacterSize(12);
+    players_health_text.setPosition(sf::Vector2f(0.f, 15.f));
+
 
     sf::Clock enemies_timer;
     sf::Clock bullets_timer;
@@ -124,6 +132,9 @@ int main() {
 
             points_text.setString("Points: "  + std::to_string(player->points()));
             window.draw(points_text);
+
+            players_health_text.setString("Health: " + std::to_string(player->health()));
+            window.draw(players_health_text);
 
             // Draw stars
             for(auto star : scene.stars()) {
