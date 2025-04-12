@@ -13,7 +13,7 @@ private:
     sf::Sprite m_sprite;
 public:
     Bullet();
-    Bullet(float x, float y, float speed = -7.f);
+    Bullet(float x, float y, bool is_player = true);
     ~Bullet();
 
     float x() const { return m_x; }
