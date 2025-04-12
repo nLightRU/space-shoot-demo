@@ -10,6 +10,7 @@ class Player {
 private:
     float m_x, m_y;
     float m_speed;
+    int m_health;
     int m_points;
     sf::Texture m_texture;
     sf::Sprite m_sprite;
@@ -20,8 +21,11 @@ public:
     
     float x() const { return m_x; }
     float y() const { return m_y; }
+    int health() const { return m_health; }
     int points() const { return m_points; }
     const sf::Sprite& sprite() const { return m_sprite; }
+
+    void apply_damage(int damage);
 
     void move_up();
     void move_down();

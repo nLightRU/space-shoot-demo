@@ -16,7 +16,9 @@ m_texture()
 }
 
 Player::Player(float width, float height) : 
-m_x(295.f), m_y(430.f), m_speed(15.f), m_points(0),
+m_x(295.f), m_y(430.f), m_speed(15.f), 
+m_health(100),
+m_points(0),
 m_texture()
 {
     std::string texture_sheet_filename = "M484VerticalShmupSet1.png";
@@ -36,6 +38,12 @@ m_texture()
 
 Player::~Player() {
 
+}
+
+// TODO: count effects, shields and so on later
+void Player::apply_damage(int damage)
+{
+    m_health -= damage;
 }
 
 void Player::move_up() {

@@ -9,6 +9,7 @@ class Enemy {
 private:
     float m_x, m_y;
     float m_w, m_h;
+    int m_damage;
 
     sf::Texture m_texture;
     sf::Sprite m_sprite;
@@ -24,7 +25,10 @@ public:
     float y() const { return m_y; }
     float w() const { return m_w; }
     float h() const { return m_h; }
+    int damage() const { return m_damage; }
     const sf::Sprite& sprite() const { return m_sprite; }
+
+    void setDamage(int damage) { m_damage = damage; }
 
     bool new_bullet();
     void move();
