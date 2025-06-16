@@ -1,3 +1,6 @@
+## Демо на YouTube
+https://youtu.be/pRl9q-pMox8
+
 ## Список
 * LLVM/clang
 * Ninja
